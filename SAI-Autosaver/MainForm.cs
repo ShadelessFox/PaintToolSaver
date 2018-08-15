@@ -19,7 +19,6 @@ namespace SAI_Autosaver
         {
             InitializeComponent();
             Text = $"{Application.ProductName} v{Application.ProductVersion} by {Application.CompanyName}";
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("ru");
 
             notifyIcon1.Text = Application.ProductName;
             notifyIcon1.BalloonTipTitle = Application.ProductName;
