@@ -117,15 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ItemsBackupDelays" xml:space="preserve">
-    <value>30,60,120,300,600,900,1800,3600,7200</value>
-    <comment>Backup delays (in second)</comment>
-  </data>
-  <data name="ItemsSaiVersions" xml:space="preserve">
-    <value>sai=Paint Tool Sai 1,sai2=Paint Tool Sai 2</value>
-    <comment>Sai versions (key=pair joined by ',')</comment>
-  </data>
-  <data name="UpdaterRepo" xml:space="preserve">
-    <value>ShadelessFox/PaintToolSaver</value>
+  <data name="status.Text" xml:space="preserve">
+    <value>Скачивание файла обновления</value>
   </data>
 </root>
