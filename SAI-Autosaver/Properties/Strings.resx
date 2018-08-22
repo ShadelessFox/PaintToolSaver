@@ -150,4 +150,25 @@
   <data name="TimeSecond" xml:space="preserve">
     <value>second,seconds,seconds</value>
   </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>An update available for SAI Autosaver.</value>
+  </data>
+  <data name="UpdateChangelog" xml:space="preserve">
+    <value>Changelog:</value>
+  </data>
+  <data name="UpdateConfirm" xml:space="preserve">
+    <value>Do you want to update?</value>
+  </data>
+  <data name="UpdateCurrentVersion" xml:space="preserve">
+    <value>Current version: {0}</value>
+  </data>
+  <data name="UpdateDone" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="UpdateDownloading" xml:space="preserve">
+    <value>Downloading update file</value>
+  </data>
+  <data name="UpdateNewVersion" xml:space="preserve">
+    <value>New version: {0}</value>
+  </data>
 </root>

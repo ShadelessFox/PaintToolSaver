@@ -8,12 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SAI_Autosaver.Properties {
+namespace Updater.Properties {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -24,14 +22,14 @@ namespace SAI_Autosaver.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Strings() {
         }
         
         /// <summary>
@@ -41,7 +39,7 @@ namespace SAI_Autosaver.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SAI_Autosaver.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Updater.Properties.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,31 +59,49 @@ namespace SAI_Autosaver.Properties {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to 30,60,120,300,600,900,1800,3600,7200.
+        ///   Looks up a localized string similar to Changelog:.
         /// </summary>
-        internal static int[] ItemsBackupDelays {
+        internal static string Changelog {
             get {
-                return ResourceManager.GetString("ItemsBackupDelays", resourceCulture).Split(',').Select(x => int.Parse(x)).ToArray();
+                return ResourceManager.GetString("Changelog", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to sai=Paint Tool Sai 1,sai2=Paint Tool Sai 2.
+        ///   Looks up a localized string similar to Current application version: {0}.
         /// </summary>
-        internal static Dictionary<string, string> ItemsSaiVersions {
+        internal static string CurrentVersion {
             get {
-                return ResourceManager.GetString("ItemsSaiVersions", resourceCulture).Split(',').Select(x => x.Split('=')).ToDictionary(x => x[0], x1 => x1[1]);
+                return ResourceManager.GetString("CurrentVersion", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to ShadelessFox/PaintToolSaver.
+        ///   Looks up a localized string similar to Newer application version: {0}.
         /// </summary>
-        internal static string UpdaterRepo {
+        internal static string NewVersion {
             get {
-                return ResourceManager.GetString("UpdaterRepo", resourceCulture);
+                return ResourceManager.GetString("NewVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update available!.
+        /// </summary>
+        internal static string UpdateAvailable {
+            get {
+                return ResourceManager.GetString("UpdateAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to upgrade?.
+        /// </summary>
+        internal static string Upgrade {
+            get {
+                return ResourceManager.GetString("Upgrade", resourceCulture);
             }
         }
     }
