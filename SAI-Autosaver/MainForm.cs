@@ -13,6 +13,7 @@ namespace SAI_Autosaver
     public partial class MainForm : Form
     {
         private DelayTimer timer;
+        private TaskbarManager taskbar = TaskbarManager.Instance;
 
         public MainForm()
         {
@@ -28,8 +29,6 @@ namespace SAI_Autosaver
             timer.OnNotSavedProjectNotify += Timer_OnNotSavedProjectNotify;
 
             LoadSettings();
-
-            Updater.CheckForUpdate();
         }
 
         private void Timer_OnNotSavedProjectNotify(object sender, EventArgs e)
@@ -39,42 +38,46 @@ namespace SAI_Autosaver
 
         private void Timer_OnProgress(object sender, int e)
         {
-            Threading.ComponentInvoke(progressBar1, (x) => x.Value = e);
-            TaskbarHelper.SetProgress(SaiHelper.AppProcess, e, progressBar1.Maximum);
+            ThreadHelper.Invoke(progressBar1, (x) => x.Value = e);
+
+            if (SaiUtil.Process != null && !SaiUtil.Process.HasExited)
+            {
+                taskbar.SetProgressValue(e, progressBar1.Maximum, SaiUtil.Process.MainWindowHandle);
+            }
         }
 
         private void Timer_OnNewState(object sender, TimerState e)
         {
-            Threading.ComponentInvoke(buttonManualBackup, (x) => x.Enabled = e == TimerState.SavingEnabled || e == TimerState.WaitingForCanvas);
+            ThreadHelper.Invoke(buttonManualBackup, (x) => x.Enabled = e == TimerState.SavingEnabled || e == TimerState.WaitingForCanvas);
 
             if (e == TimerState.NeverSaved)
             {
-                TaskbarHelper.SetState(SaiHelper.AppProcess, TaskbarProgressBarState.Paused);
+                taskbar.SetProgressState(TaskbarProgressBarState.Paused, SaiUtil.Process.MainWindowHandle);
             }
             else if (e == TimerState.SavingEnabled)
             {
-                TaskbarHelper.SetState(SaiHelper.AppProcess, TaskbarProgressBarState.Normal);
+                taskbar.SetProgressState(TaskbarProgressBarState.Normal, SaiUtil.Process.MainWindowHandle);
             }
 
             switch (e)
             {
                 case TimerState.NeverSaved:
-                    Threading.SetComponentText(this, labelStatus, Properties.Strings.StateNeverSaved);
+                    ThreadHelper.SetText(this, labelStatus, Properties.Strings.StateNeverSaved);
                     break;
                 case TimerState.SavingDisabled:
-                    Threading.SetComponentText(this, labelStatus, Properties.Strings.StateSavingDisabled);
+                    ThreadHelper.SetText(this, labelStatus, Properties.Strings.StateSavingDisabled);
                     break;
                 case TimerState.SavingEnabled:
-                    Threading.SetComponentText(this, labelStatus, Properties.Strings.StateSavingEnabled);
+                    ThreadHelper.SetText(this, labelStatus, Properties.Strings.StateSavingEnabled);
                     break;
                 case TimerState.WaitingForCanvas:
-                    Threading.SetComponentText(this, labelStatus, Properties.Strings.StateWaitingForCanvas);
+                    ThreadHelper.SetText(this, labelStatus, Properties.Strings.StateWaitingForCanvas);
                     break;
                 case TimerState.WaitingForProcess:
-                    Threading.SetComponentText(this, labelStatus, Properties.Strings.StateWaitingForProcess);
+                    ThreadHelper.SetText(this, labelStatus, Properties.Strings.StateWaitingForProcess);
                     break;
                 case TimerState.WaitingForProject:
-                    Threading.SetComponentText(this, labelStatus, Properties.Strings.StateWaitingForProject);
+                    ThreadHelper.SetText(this, labelStatus, Properties.Strings.StateWaitingForProject);
                     break;
             }
 
@@ -85,10 +88,9 @@ namespace SAI_Autosaver
         {
             foreach (var item in Properties.Resources.ItemsBackupDelays)
             {
-                var formatted = TimeSpan.FromSeconds(item)
-                    .FormatHMSDate(Properties.Strings.TimeHour,
-                                   Properties.Strings.TimeMinute,
-                                   Properties.Strings.TimeSecond);
+                var formatted = DateUtil.FormatDate(TimeSpan.FromSeconds(item),
+                    Properties.Strings.TimeHour, Properties.Strings.TimeMinute,
+                    Properties.Strings.TimeSecond);
 
                 comboBackupDelay.Items.Add(formatted);
             }
@@ -246,7 +248,7 @@ namespace SAI_Autosaver
         {
             int selectedIndex = (sender as ComboBox).SelectedIndex;
 
-            SaiHelper.AppName = Properties.Resources.ItemsSaiVersions.Keys.ToArray()[selectedIndex];
+            SaiUtil.ExeName = Properties.Resources.ItemsSaiVersions.Keys.ToArray()[selectedIndex];
 
             Properties.Settings.Default.IndexSaiVersion = selectedIndex;
         }
@@ -255,11 +257,11 @@ namespace SAI_Autosaver
         {
             if (timer.LastState == TimerState.SavingEnabled)
             {
-                SaiHelper.SaveProject();
+                SaiUtil.Save();
                 timer.CurrentTime = 0;
             }
 
-            SaiHelper.CopyProjectFileInto(Properties.Settings.Default.BackupFolderPath);
+            SaiUtil.CopyInto(Properties.Settings.Default.BackupFolderPath);
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)

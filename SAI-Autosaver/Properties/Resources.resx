@@ -125,7 +125,4 @@
     <value>sai=Paint Tool Sai 1,sai2=Paint Tool Sai 2</value>
     <comment>Sai versions (key=pair joined by ',')</comment>
   </data>
-  <data name="UpdaterRepo" xml:space="preserve">
-    <value>ShadelessFox/PaintToolSaver</value>
-  </data>
 </root>

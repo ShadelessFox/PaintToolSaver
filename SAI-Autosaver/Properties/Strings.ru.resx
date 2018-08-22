@@ -150,25 +150,4 @@
   <data name="TimeSecond" xml:space="preserve">
     <value>секунда,секунды,секунд</value>
   </data>
-  <data name="UpdateAvailable" xml:space="preserve">
-    <value>Доступно обновление программы.</value>
-  </data>
-  <data name="UpdateChangelog" xml:space="preserve">
-    <value>Список изменений:</value>
-  </data>
-  <data name="UpdateConfirm" xml:space="preserve">
-    <value>Вы желаете обновиться?</value>
-  </data>
-  <data name="UpdateCurrentVersion" xml:space="preserve">
-    <value>Текущая версия: {0}</value>
-  </data>
-  <data name="UpdateDone" xml:space="preserve">
-    <value>Готово</value>
-  </data>
-  <data name="UpdateDownloading" xml:space="preserve">
-    <value>Скачивание файла обновления</value>
-  </data>
-  <data name="UpdateNewVersion" xml:space="preserve">
-    <value>Новая версия: {0}</value>
-  </data>
 </root>

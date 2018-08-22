@@ -61,31 +61,22 @@ namespace SAI_Autosaver.Properties {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to 30,60,120,300,600,900,1800,3600,7200.
         /// </summary>
         internal static int[] ItemsBackupDelays {
             get {
-                return ResourceManager.GetString("ItemsBackupDelays", resourceCulture).Split(',').Select(x => int.Parse(x)).ToArray();
+                return ResourceManager.GetString("ItemsBackupDelays", resourceCulture).Split(',').Select(int.Parse).ToArray();
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to sai=Paint Tool Sai 1,sai2=Paint Tool Sai 2.
+        ///   Looks up a localized string similar to sai1=Paint Tool Sai 1,sai2=Paint Tool Sai 2.
         /// </summary>
         internal static Dictionary<string, string> ItemsSaiVersions {
             get {
-                return ResourceManager.GetString("ItemsSaiVersions", resourceCulture).Split(',').Select(x => x.Split('=')).ToDictionary(x => x[0], x1 => x1[1]);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to ShadelessFox/PaintToolSaver.
-        /// </summary>
-        internal static string UpdaterRepo {
-            get {
-                return ResourceManager.GetString("UpdaterRepo", resourceCulture);
+                return ResourceManager.GetString("ItemsSaiVersions", resourceCulture).Split(',').Select(x => x.Split('=')).ToDictionary(k => k[0], v => v[1]);
             }
         }
     }

@@ -52,13 +52,13 @@ namespace SAI_Autosaver.Core
         {
             if (Properties.Settings.Default.BackupEnabled)
             {
-                if (SaiHelper.ObtainProcess())
+                if (SaiUtil.HasObtained)
                 {
-                    if (SaiHelper.IsProjectOpened())
+                    if (SaiUtil.HasProject)
                     {
-                        if (SaiHelper.IsProjectHasPath())
+                        if (SaiUtil.ProjectHasPath)
                         {
-                            if (SaiHelper.IsProjectModified())
+                            if (SaiUtil.ProjectModified)
                             {
                                 UpdateState(TimerState.SavingEnabled);
 
@@ -68,11 +68,11 @@ namespace SAI_Autosaver.Core
                                 }
                                 else
                                 {
-                                    SaiHelper.SaveProject();
+                                    SaiUtil.Save();
 
                                     if (Properties.Settings.Default.BackupIntoFolder)
                                     {
-                                        SaiHelper.CopyProjectFileInto(Properties.Settings.Default.BackupFolderPath);
+                                        SaiUtil.CopyInto(Properties.Settings.Default.BackupFolderPath);
                                     }
 
                                     CurrentTime = 0;
@@ -87,9 +87,9 @@ namespace SAI_Autosaver.Core
                         {
                             UpdateState(TimerState.NeverSaved);
 
-                            if (Properties.Settings.Default.BackupNotifyNotSaved && !NotifiedIfProjectNeverSaved)
+                            if(Properties.Settings.Default.BackupNotifyNotSaved && !NotifiedIfProjectNeverSaved)
                             {
-                                if (CurrentTime < MaximumTime)
+                                if(CurrentTime < MaximumTime)
                                 {
                                     CurrentTime++;
                                 }

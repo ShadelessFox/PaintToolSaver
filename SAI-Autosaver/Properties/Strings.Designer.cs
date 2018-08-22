@@ -132,7 +132,7 @@ namespace SAI_Autosaver.Properties {
                 return ResourceManager.GetString("StateWaitingForProject", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to hour,hours,hours.
         /// </summary>
@@ -141,7 +141,7 @@ namespace SAI_Autosaver.Properties {
                 return ResourceManager.GetString("TimeHour", resourceCulture).Split(',').ToArray();
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to minute,minutes,minutes.
         /// </summary>
@@ -150,76 +150,13 @@ namespace SAI_Autosaver.Properties {
                 return ResourceManager.GetString("TimeMinute", resourceCulture).Split(',').ToArray();
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to second,seconds,seconds.
         /// </summary>
         internal static string[] TimeSecond {
             get {
                 return ResourceManager.GetString("TimeSecond", resourceCulture).Split(',').ToArray();
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An update available for SAI Autosaver..
-        /// </summary>
-        internal static string UpdateAvailable {
-            get {
-                return ResourceManager.GetString("UpdateAvailable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Changelog:.
-        /// </summary>
-        internal static string UpdateChangelog {
-            get {
-                return ResourceManager.GetString("UpdateChangelog", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Do you want to update?.
-        /// </summary>
-        internal static string UpdateConfirm {
-            get {
-                return ResourceManager.GetString("UpdateConfirm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Current version: {0}.
-        /// </summary>
-        internal static string UpdateCurrentVersion {
-            get {
-                return ResourceManager.GetString("UpdateCurrentVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Done.
-        /// </summary>
-        internal static string UpdateDone {
-            get {
-                return ResourceManager.GetString("UpdateDone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Downloading update file.
-        /// </summary>
-        internal static string UpdateDownloading {
-            get {
-                return ResourceManager.GetString("UpdateDownloading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New version: {0}.
-        /// </summary>
-        internal static string UpdateNewVersion {
-            get {
-                return ResourceManager.GetString("UpdateNewVersion", resourceCulture);
             }
         }
     }
