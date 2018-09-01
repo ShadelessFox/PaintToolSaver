@@ -34,14 +34,31 @@ namespace SAI_Autosaver
             if (path.Contains('/'))
             {
                 var pathSplit = path.Split('/').Select(x => x.Trim()).ToArray();
-                var principalSearcher = new PrincipalSearcher(new UserPrincipal(new PrincipalContext(ContextType.Machine)));
 
-                foreach (var principal in principalSearcher.FindAll())
+                if (pathSplit.Length == 2 && pathSplit[0].ToLower() == "desktop")
                 {
-                    if (pathSplit[0] == principal.DisplayName || pathSplit[0] == principal.Name)
+                    path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), pathSplit[1]);
+                }
+                else
+                {
+                    var principalSearcher = new PrincipalSearcher(new UserPrincipal(new PrincipalContext(ContextType.Machine)));
+                    var found = false;
+
+                    foreach (var principal in principalSearcher.FindAll())
                     {
-                        var userProfile = Path.Combine(Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).ToString(), principal.Name);
-                        path = Path.Combine(new string[] { userProfile }.Concat(pathSplit.Skip(1)).ToArray());
+                        if (pathSplit[0] == principal.DisplayName || pathSplit[0] == principal.Name)
+                        {
+                            var userProfile = Path.Combine(Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).ToString(), principal.Name);
+                            path = Path.Combine(new string[] { userProfile }.Concat(pathSplit.Skip(1)).ToArray());
+
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        path = Path.Combine(new string[] { Environment.GetFolderPath(Environment.SpecialFolder.Desktop) }.Concat(pathSplit).ToArray());
                     }
                 }
             }
