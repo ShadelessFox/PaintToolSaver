@@ -30,19 +30,12 @@ namespace SAI_Autosaver
                 if (newVersion > curVersion)
                 {
                     var sb = new StringBuilder();
-                    sb.Append(Properties.Strings.UpdateAvailable);
-                    sb.Append('\n', 2);
-                    sb.Append(String.Format(Properties.Strings.UpdateCurrentVersion, curVersion));
-                    sb.Append('\n');
-                    sb.Append(String.Format(Properties.Strings.UpdateNewVersion, newVersion));
-                    sb.Append('\n', 2);
-                    sb.Append(Properties.Strings.UpdateChangelog);
-                    foreach (var line in response["body"].ToString().Split('\n')) 
+                    foreach (var line in response["body"].ToString().Split('\n'))
+                    {
                         sb.Append($"\n  {line}");
-                    sb.Append('\n', 2);
-                    sb.Append(Properties.Strings.UpdateConfirm);
+                    }
 
-                    if (MessageBox.Show(sb.ToString(), "New update available", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information) == DialogResult.Yes)
+                    if (MessageBox.Show(String.Format(Properties.Strings.UpdateInfo, curVersion, newVersion, sb), Properties.Strings.UpdateAvailable, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information) == DialogResult.Yes)
                     {
                         string assetUrl = null;
                         foreach (var asset in response["assets"])

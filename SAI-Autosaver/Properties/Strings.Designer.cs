@@ -10,9 +10,8 @@
 
 namespace SAI_Autosaver.Properties {
     using System;
-    using System.Linq;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -80,6 +79,19 @@ namespace SAI_Autosaver.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Looks like your user settings file has become corrupted. This may be due to a crash or improper exiting of the program. Application must reset your user settings in order to continue.
+        ///
+        ///Click Yes to reset you user settings and continue.
+        ///
+        ///Click No if you wish to attempt manual repair..
+        /// </summary>
+        internal static string IncorrectConfigFile {
+            get {
+                return ResourceManager.GetString("IncorrectConfigFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project is created but never saved locally.
         /// </summary>
         internal static string StateNeverSaved {
@@ -136,63 +148,36 @@ namespace SAI_Autosaver.Properties {
         /// <summary>
         ///   Looks up a localized string similar to hour,hours,hours.
         /// </summary>
-        internal static string[] TimeHour {
+        internal static string TimeHour {
             get {
-                return ResourceManager.GetString("TimeHour", resourceCulture).Split(',').ToArray();
+                return ResourceManager.GetString("TimeHour", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to minute,minutes,minutes.
         /// </summary>
-        internal static string[] TimeMinute {
+        internal static string TimeMinute {
             get {
-                return ResourceManager.GetString("TimeMinute", resourceCulture).Split(',').ToArray();
+                return ResourceManager.GetString("TimeMinute", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to second,seconds,seconds.
         /// </summary>
-        internal static string[] TimeSecond {
+        internal static string TimeSecond {
             get {
-                return ResourceManager.GetString("TimeSecond", resourceCulture).Split(',').ToArray();
+                return ResourceManager.GetString("TimeSecond", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An update available for SAI Autosaver..
+        ///   Looks up a localized string similar to New update available.
         /// </summary>
         internal static string UpdateAvailable {
             get {
                 return ResourceManager.GetString("UpdateAvailable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Changelog:.
-        /// </summary>
-        internal static string UpdateChangelog {
-            get {
-                return ResourceManager.GetString("UpdateChangelog", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Do you want to update?.
-        /// </summary>
-        internal static string UpdateConfirm {
-            get {
-                return ResourceManager.GetString("UpdateConfirm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Current version: {0}.
-        /// </summary>
-        internal static string UpdateCurrentVersion {
-            get {
-                return ResourceManager.GetString("UpdateCurrentVersion", resourceCulture);
             }
         }
         
@@ -206,7 +191,7 @@ namespace SAI_Autosaver.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Downloading update file.
+        ///   Looks up a localized string similar to Downloading update file: {0}.
         /// </summary>
         internal static string UpdateDownloading {
             get {
@@ -215,11 +200,20 @@ namespace SAI_Autosaver.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New version: {0}.
+        ///   Looks up a localized string similar to An update available for this program.
+        ///
+        ///Current version: {0}
+        ///New version: {1}
+        ///
+        ///Changelog:{2}
+        ///
+        ///Click Yes to update.
+        ///
+        ///Click False to update later..
         /// </summary>
-        internal static string UpdateNewVersion {
+        internal static string UpdateInfo {
             get {
-                return ResourceManager.GetString("UpdateNewVersion", resourceCulture);
+                return ResourceManager.GetString("UpdateInfo", resourceCulture);
             }
         }
     }

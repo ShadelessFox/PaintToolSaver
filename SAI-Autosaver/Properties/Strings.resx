@@ -123,6 +123,13 @@
   <data name="IncorrectBackupPath" xml:space="preserve">
     <value>Backup folder path is incorrect</value>
   </data>
+  <data name="IncorrectConfigFile" xml:space="preserve">
+    <value>Looks like your user settings file has become corrupted. This may be due to a crash or improper exiting of the program. Application must reset your user settings in order to continue.
+
+Click Yes to reset you user settings and continue.
+
+Click No if you wish to attempt manual repair.</value>
+  </data>
   <data name="StateNeverSaved" xml:space="preserve">
     <value>Project is created but never saved locally</value>
   </data>
@@ -151,24 +158,24 @@
     <value>second,seconds,seconds</value>
   </data>
   <data name="UpdateAvailable" xml:space="preserve">
-    <value>An update available for SAI Autosaver.</value>
-  </data>
-  <data name="UpdateChangelog" xml:space="preserve">
-    <value>Changelog:</value>
-  </data>
-  <data name="UpdateConfirm" xml:space="preserve">
-    <value>Do you want to update?</value>
-  </data>
-  <data name="UpdateCurrentVersion" xml:space="preserve">
-    <value>Current version: {0}</value>
+    <value>New update available</value>
   </data>
   <data name="UpdateDone" xml:space="preserve">
     <value>Done</value>
   </data>
   <data name="UpdateDownloading" xml:space="preserve">
-    <value>Downloading update file</value>
+    <value>Downloading update file: {0}</value>
   </data>
-  <data name="UpdateNewVersion" xml:space="preserve">
-    <value>New version: {0}</value>
+  <data name="UpdateInfo" xml:space="preserve">
+    <value>An update available for this program.
+
+Current version: {0}
+New version: {1}
+
+Changelog:{2}
+
+Click Yes to update.
+
+Click False to update later.</value>
   </data>
 </root>

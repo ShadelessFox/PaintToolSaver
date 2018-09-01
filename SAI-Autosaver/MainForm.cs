@@ -2,8 +2,10 @@
 using Microsoft.WindowsAPICodePack.Taskbar;
 using SAI_Autosaver.Core;
 using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -28,8 +30,6 @@ namespace SAI_Autosaver
             timer.OnNotSavedProjectNotify += Timer_OnNotSavedProjectNotify;
 
             LoadSettings();
-
-            Updater.CheckForUpdate();
         }
 
         private void Timer_OnNotSavedProjectNotify(object sender, EventArgs e)
@@ -83,13 +83,13 @@ namespace SAI_Autosaver
 
         private void LoadSettings()
         {
+            var formatterHours = Properties.Strings.TimeHour.Split(',').ToArray();
+            var formatterMinutes = Properties.Strings.TimeMinute.Split(',').ToArray();
+            var formatterSeconds = Properties.Strings.TimeSecond.Split(',').ToArray();
+
             foreach (var item in Properties.Resources.ItemsBackupDelays)
             {
-                var formatted = TimeSpan.FromSeconds(item)
-                    .FormatHMSDate(Properties.Strings.TimeHour,
-                                   Properties.Strings.TimeMinute,
-                                   Properties.Strings.TimeSecond);
-
+                var formatted = TimeSpan.FromSeconds(item).FormatHMSDate(formatterHours, formatterMinutes, formatterSeconds);
                 comboBackupDelay.Items.Add(formatted);
             }
 

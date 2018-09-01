@@ -123,6 +123,13 @@
   <data name="IncorrectBackupPath" xml:space="preserve">
     <value>Путь до папки с бекапами некорректный</value>
   </data>
+  <data name="IncorrectConfigFile" xml:space="preserve">
+    <value>Похоже, что файл с пользовательскими настройками был поврежден. Это могло произойти в результате ошибки или некорректного выхода из программы. Приложение должно сбросить пользовательские настройки чтобы продолжить.
+
+Нажмите Да чтобы сбросить пользовательские настройки и продолжить.
+
+Нажмите Нет если желаете попытаться восстановить данные вручную.</value>
+  </data>
   <data name="StateNeverSaved" xml:space="preserve">
     <value>Новый проект был создан, но не сохранялся</value>
   </data>
@@ -151,24 +158,24 @@
     <value>секунда,секунды,секунд</value>
   </data>
   <data name="UpdateAvailable" xml:space="preserve">
-    <value>Доступно обновление программы.</value>
-  </data>
-  <data name="UpdateChangelog" xml:space="preserve">
-    <value>Список изменений:</value>
-  </data>
-  <data name="UpdateConfirm" xml:space="preserve">
-    <value>Вы желаете обновиться?</value>
-  </data>
-  <data name="UpdateCurrentVersion" xml:space="preserve">
-    <value>Текущая версия: {0}</value>
+    <value>Доступно новое обновление</value>
   </data>
   <data name="UpdateDone" xml:space="preserve">
     <value>Готово</value>
   </data>
   <data name="UpdateDownloading" xml:space="preserve">
-    <value>Скачивание файла обновления</value>
+    <value>Загрузка файла обновления: {0}</value>
   </data>
-  <data name="UpdateNewVersion" xml:space="preserve">
-    <value>Новая версия: {0}</value>
+  <data name="UpdateInfo" xml:space="preserve">
+    <value>Доступно новое обновление программы.
+
+Текущая версия: {0}
+Новая версия: {1}
+
+Список изменений:{2}
+
+Нажмите Да если желаете обновиться.
+
+Нажмите Нет если желаете обновиться позже.</value>
   </data>
 </root>

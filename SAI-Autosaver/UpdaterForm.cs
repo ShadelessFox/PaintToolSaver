@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SAI_Autosaver
@@ -26,7 +19,6 @@ namespace SAI_Autosaver
             text = status.Text;
 
             SavePath = Path.GetTempPath() + Guid.NewGuid().ToString() + ".msi";
-            Debug.WriteLine($"Saving updater into {SavePath}");
 
             var client = new WebClient();
             client.DownloadProgressChanged += Client_DownloadProgressChanged;
@@ -38,7 +30,7 @@ namespace SAI_Autosaver
         private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             double percentage = e.BytesReceived / (double)e.TotalBytesToReceive * 100;
-            Threading.SetComponentText(this, status, String.Format("{0}: {1}/{2} ({3:f}%)", Properties.Strings.UpdateDownloading, e.BytesReceived, e.TotalBytesToReceive, percentage));
+            Threading.SetComponentText(this, status, String.Format(Properties.Strings.UpdateDownloading, String.Format("{0}/{1} ({2:f}%)", e.BytesReceived, e.TotalBytesToReceive, percentage)));
             Threading.ComponentInvoke(progressBar1, (x) => x.Value = (int)Math.Truncate(percentage));
         }
 

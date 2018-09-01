@@ -1,5 +1,5 @@
 # PaintToolSaver
-Small saving util for PaintTool SAI 1 & 2. _Enjoy and create art without pain._
+Small save util for PaintTool SAI 1 & 2. _Enjoy and create art without pain._
 
 ## Features
 * Support for SAI 1 _(legacy)_ & SAI 2

@@ -18,11 +18,6 @@ namespace SAI_Autosaver
 
         public static bool ObtainProcess()
         {
-            if (AppProcess != null && !AppProcess.HasExited)
-            {
-                return true;
-            }
-
             var process = Process.GetProcessesByName(AppName).FirstOrDefault();
             AppProcess = process;
             return process != null;
