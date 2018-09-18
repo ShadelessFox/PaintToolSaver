@@ -6,6 +6,7 @@ using System.DirectoryServices.AccountManagement;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -16,75 +17,103 @@ namespace SAI_Autosaver
         public static string AppName { get; set; }
         public static Process AppProcess { get; private set; }
 
-        public static bool ObtainProcess()
+        private static readonly (string, string)[] CachedDriveInfos;
+        private static readonly (string, string)[] CachedPrincipals;
+
+        static SaiHelper()
         {
-            var process = Process.GetProcessesByName(AppName).FirstOrDefault();
-            AppProcess = process;
-            return process != null;
+            CachedDriveInfos = DriveInfo.GetDrives()
+                .Where(x => x.IsReady)
+                .Select(x => (x.Name, x.VolumeLabel))
+                .ToArray();
+
+            CachedPrincipals = new PrincipalSearcher(new UserPrincipal(new PrincipalContext(ContextType.Machine))).FindAll()
+                .Select(x => (x.Name, x.DisplayName))
+                .ToArray();
         }
 
-        public static string GetProjectAbsolutePath()
+        public static bool Connect()
         {
-            var path = AppProcess.MainWindowTitle.Split(new char[] { '-' }, 2)[1].Trim();
-            if (IsProjectModified())
-            {
-                path = path.Replace("(*)", "").Trim();
-            }
+            AppProcess = Process.GetProcessesByName(AppName).FirstOrDefault();
+            return AppProcess != null;
+        }
+
+        public static bool IsProjectOpened()
+        {
+            return AppProcess.MainWindowTitle.Contains('-');
+        }
+
+        public static bool IsProjectSavedLocally()
+        {
+            return GetProjectPath() != null;
+        }
+
+        public static bool IsProjectModified()
+        {
+            return AppProcess.MainWindowTitle.EndsWith("(*)");
+        }
+
+        public static string GetProjectName()
+        {
+            return Path.GetFileNameWithoutExtension(GetProjectPath());
+        }
+
+        public static string GetProjectPath()
+        {
+            var path = Regex.Replace(AppProcess.MainWindowTitle.Split('-').Last(), @"\s*\([!|*|?]\)", "").Trim();
+            var newPath = path.Contains('/');
+
 
             if (path.Contains('/'))
             {
-                var pathSplit = path.Split('/').Select(x => x.Trim()).ToArray();
+                string[] pathSplit = path.Split('/').Select(x => x.Trim()).ToArray();
 
-                if (pathSplit.Length == 2 && pathSplit[0].ToLower() == "desktop")
+                string TryGetDesktop()
                 {
-                    path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), pathSplit[1]);
-                }
-                else
-                {
-                    var principalSearcher = new PrincipalSearcher(new UserPrincipal(new PrincipalContext(ContextType.Machine)));
-                    var found = false;
-
-                    foreach (var principal in principalSearcher.FindAll())
+                    if (pathSplit.Length == 2 && pathSplit[0].ToLower() == "desktop")
                     {
-                        if (pathSplit[0] == principal.DisplayName || pathSplit[0] == principal.Name)
+                        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), pathSplit[1]);
+                    }
+
+                    return Path.Combine(new string[] { Environment.GetFolderPath(Environment.SpecialFolder.Desktop) }.Concat(pathSplit).ToArray());
+                }
+
+                string TryGetProfile()
+                {
+                    foreach (var (Name, DisplayName) in CachedPrincipals)
+                    {
+                        if (pathSplit[0] == DisplayName || pathSplit[0] == Name)
                         {
-                            var userProfile = Path.Combine(Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).ToString(), principal.Name);
-                            path = Path.Combine(new string[] { userProfile }.Concat(pathSplit.Skip(1)).ToArray());
-
-                            found = true;
-                            break;
+                            var userProfile = Path.Combine(Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).ToString(), Name);
+                            return Path.Combine(new string[] { userProfile }.Concat(pathSplit.Skip(1)).ToArray());
                         }
+
                     }
 
-                    if (!found)
-                    {
-                        path = Path.Combine(new string[] { Environment.GetFolderPath(Environment.SpecialFolder.Desktop) }.Concat(pathSplit).ToArray());
-                    }
+                    return null;
                 }
+
+                string TryGetDrive()
+                {
+                    foreach (var (Name, VolumeLabel) in CachedDriveInfos)
+                    {
+                        try
+                        {
+                            if (pathSplit[0] == $"{VolumeLabel} ({Name.Substring(0, 2)})")
+                            {
+                                return Path.Combine(new string[] { Name }.Concat(pathSplit.Skip(1)).ToArray());
+                            }
+                        }
+                        catch (IOException) { }
+                    }
+
+                    return null;
+                }
+
+                path = TryGetDrive() ?? TryGetProfile() ?? TryGetDesktop();
             }
 
-            return path.Contains('\\') ? File.Exists(path) ? path : null : null;
-        }
-
-        public static string GetProjectFileName()
-            => GetProjectNameRaw().Replace("(*)", "");
-
-        public static string GetProjectName()
-            => Path.GetFileNameWithoutExtension(GetProjectFileName());
-
-        public static bool IsProjectModified()
-            => GetProjectNameRaw().EndsWith("(*)");
-
-        public static bool IsProjectHasPath()
-            => GetProjectAbsolutePath() != null;
-
-        public static bool IsProjectOpened()
-            => AppProcess.MainWindowTitle.Contains('-');
-
-        private static string GetProjectNameRaw()
-        {
-            var path = AppProcess.MainWindowTitle.Split(new char[] { '-' }, 2)[1].Trim();
-            return path.Contains('/') ? path.Split('/').Last().Trim() : Path.GetFileName(path);
+            return path != null ? File.Exists(path) ? Path.GetFullPath(path) : null : null;
         }
 
         public static void CopyProjectFileInto(string fileName)
@@ -94,7 +123,7 @@ namespace SAI_Autosaver
                 Directory.CreateDirectory(fileName);
             }
 
-            File.Copy(GetProjectAbsolutePath(), Path.Combine(fileName, $"{GetProjectName()} - {DateTime.Now.ToString("yyyy.MM.dd - HH.mm.ss")}{Path.GetExtension(GetProjectFileName())}"), true);
+            File.Copy(GetProjectPath(), Path.Combine(fileName, $"{GetProjectName()} - {DateTime.Now.ToString("yyyy.MM.dd - HH.mm.ss")}{Path.GetExtension(GetProjectPath())}"), true);
         }
 
         public static void SaveProject()

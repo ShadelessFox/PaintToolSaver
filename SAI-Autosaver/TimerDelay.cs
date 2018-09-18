@@ -52,11 +52,11 @@ namespace SAI_Autosaver.Core
         {
             if (Properties.Settings.Default.BackupEnabled)
             {
-                if (SaiHelper.ObtainProcess())
+                if (SaiHelper.Connect())
                 {
                     if (SaiHelper.IsProjectOpened())
                     {
-                        if (SaiHelper.IsProjectHasPath())
+                        if (SaiHelper.IsProjectSavedLocally())
                         {
                             if (SaiHelper.IsProjectModified())
                             {

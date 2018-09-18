@@ -151,6 +151,28 @@ namespace SAI_Autosaver
             return false;
         }
 
+        private void buttonSelectFolder_Click(object sender, EventArgs e)
+        {
+            SelectBackupFolder();
+        }
+
+        private void buttonOpenBackupFolder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(Properties.Settings.Default.BackupFolderPath);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(Properties.Strings.IncorrectBackupPath);
+
+                if (!SelectBackupFolder())
+                {
+                    checkBackupIntoFolder.Checked = false;
+                }
+            }
+        }
+
         private void checkEnableBackups_CheckedChanged(object sender, EventArgs e)
         {
             bool isChecked = (sender as CheckBox).Checked;
@@ -187,28 +209,6 @@ namespace SAI_Autosaver
             Properties.Settings.Default.BackupIntoFolder = isChecked;
         }
 
-        private void buttonSelectFolder_Click(object sender, EventArgs e)
-        {
-            SelectBackupFolder();
-        }
-
-        private void buttonOpenBackupFolder_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Process.Start(Properties.Settings.Default.BackupFolderPath);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(Properties.Strings.IncorrectBackupPath);
-
-                if (!SelectBackupFolder())
-                {
-                    checkBackupIntoFolder.Checked = false;
-                }
-            }
-        }
-
         private void checkRunWithWindows_CheckedChanged(object sender, EventArgs e)
         {
             bool isChecked = (sender as CheckBox).Checked;
@@ -224,6 +224,7 @@ namespace SAI_Autosaver
 
         private void checkNotifyProjectNotSaved_CheckedChanged(object sender, EventArgs e)
         {
+            timer.CurrentTime = 0;
             Properties.Settings.Default.BackupNotifyNotSaved = (sender as CheckBox).Checked;
         }
 
@@ -259,7 +260,10 @@ namespace SAI_Autosaver
                 timer.CurrentTime = 0;
             }
 
-            SaiHelper.CopyProjectFileInto(Properties.Settings.Default.BackupFolderPath);
+            if(Properties.Settings.Default.BackupIntoFolder)
+            {
+                SaiHelper.CopyProjectFileInto(Properties.Settings.Default.BackupFolderPath);
+            }
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -288,8 +292,9 @@ namespace SAI_Autosaver
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Properties.Settings.Default.Save();
             timer.CurrentTime = 0;
+            TaskbarHelper.SetState(SaiHelper.AppProcess, TaskbarProgressBarState.NoProgress);
+            Properties.Settings.Default.Save();
         }
 
         private void exitProgramToolStripMenuItem_Click(object sender, EventArgs e)
